@@ -3,7 +3,7 @@ import { Ship } from './ship.js';
 export class Gameboard {
     constructor(){
         this.map = Array(10).fill().map(() => 
-            Array(10).fill(new Boardspace(false, false)));
+            Array(10).fill(false));
         this.ships = [new Ship(5), new Ship(4), new Ship(3), new Ship(3), new Ship(2)];
         this.gameOver = false;
     }
@@ -16,7 +16,7 @@ export class Gameboard {
         let newCoords = [];
         let randomRow = 0;
         let randomCol = 0;
-        
+
         this.ships.forEach((ship) => {
             placed = false;
             while(!placed){
@@ -24,11 +24,12 @@ export class Gameboard {
                 randomRow = this.randomNum();
                 randomCol = this.randomNum();
                 newCoords = this.calculateShipCoords(ship, newCoords, randomRow, randomCol);
-
+                
                if(!this.isOccupied(newCoords)){
-                    ship.coordinates.push(newCoords);
                     newCoords.forEach((coord) => {
+                        ship.coordinates.push(coord);
                         this.map[coord[0]][coord[1]] = true;
+                        
                     })
                     placed = true;
                 }
@@ -56,7 +57,6 @@ export class Gameboard {
         if(directionChoice == "Horizontal"){
             if(10 - ship.length < randomCol){
                randomCol = Math.floor(Math.random() * (10-ship.length));
-                //maybe calcluate a random number between (10-length) instead
             }
             for(let i = 0; i < ship.length; i++){
                 newCoords.push([randomRow, randomCol + i]);
@@ -112,20 +112,31 @@ export class Gameboard {
     }
     
     receiveAttack(coords){
+        let hit = false;
         this.ships.forEach((ship) => {
             ship.coordinates.forEach((coordinate) => {
                 if(coords[0] == coordinate[0] && coords[1] == coordinate[1]){
                     ship.hit();
                     ship.isSunk();
+                    hit = true;
                 }
             })
         })
+
+        
+        //if(hit == false){
+          //  this.map[coords[0]][coords[1]] = "miss";
+        //}
+        return hit;
     }
+
     
+    //confirm space isn't hit
+    //set that space to missed
     checkGameOver(){
         let shipCount = 0;
         this.ships.forEach((ship) => {
-            if(ship.sunk) {
+            if(ship.isSunk()) {
                 shipCount++;
             }
 
@@ -137,12 +148,6 @@ export class Gameboard {
     }
 }
 
-class Boardspace {
-    constructor(filled, hit){
-        this.filled = filled;
-        this.hit = hit;
-    }
-}
 
 
 
