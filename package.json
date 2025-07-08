@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest"
   },
-  "author": "Stefan Land",
+  "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.24.9",
