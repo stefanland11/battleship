@@ -189,24 +189,3 @@ function checkSunk(player){
     })
 }
 
-
-
-//game
-//create two boards with hidden coordinates.
-//turn starts with player one
-//each turn
-//  player clicks coordinate on opposite board
-//  if hit, player goes again.
-// 
-//  else next turn.
-
-//end turn button makes both boards hidden
-//start turn makes current players board visible, other players board invisible expect for hits and misses.
-
-//consolidate event listener function into an actual function
-//turn current function into two player function
-//create logic for computer selecting random turn
-//create single player function.
-
-//log each turn in status examle A5 hit!
-//wait 5 seconds after computer attack.
